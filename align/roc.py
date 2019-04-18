@@ -12,11 +12,12 @@ def precision_recall(y_true, y_pred, iou=0.5):
         if iou_score >= iou:
             yt, yp = y_true[i].ravel(), y_pred[i].ravel()
             tp = np.dot(yt,yp).sum()
-            positives = yp.sum()
-            tn = np.dot(1-yt, 1-yp).sum()
-            scores[i,0] = tp / positives
-            if tp + tn != 0:
-                scores[i,1] = tp / (tp + tn)
+            fp = np.dot(1-yt,yp).sum()
+            fn = np.dot(yt, 1-yp).sum()
+            if tp + fp != 0:
+                scores[i,0] = tp / (tp+ fp)
+            if tp + fn != 0:
+                scores[i,1] = tp / (tp + fn)
     return scores
 
 
